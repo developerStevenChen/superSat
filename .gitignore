@@ -1,0 +1,23 @@
+# Backend (BasscBackend)
+BasscBackend/venv/
+BasscBackend/__pycache__/
+BasscBackend/**/__pycache__/
+BasscBackend/.env
+BasscBackend/.env.local
+BasscBackend/db.sqlite3
+BasscBackend/media/
+BasscBackend/staticfiles/
+BasscBackend/*.log
+
+# Frontend (BasscWebsite)
+BasscWebsite/node_modules/
+BasscWebsite/dist/
+BasscWebsite/*.log
+BasscWebsite/.env
+BasscWebsite/.env.local
+BasscWebsite/*.local
+
+# OS / Editor
+.DS_Store
+.idea
+.vscode/

@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+.env.local
+db.sqlite3
+data_export.json
+media/
+staticfiles/
+*.log

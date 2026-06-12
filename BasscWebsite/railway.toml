@@ -1,0 +1,7 @@
+# 前端 Railway 部署：明确指定构建与启动，避免 Railpack 报 No start command
+[build]
+builder = "nixpacks"
+buildCommand = "npm ci && npm run build"
+
+[deploy]
+startCommand = "npm run start"

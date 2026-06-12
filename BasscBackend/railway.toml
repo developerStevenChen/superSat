@@ -1,0 +1,11 @@
+# Railway 后端服务配置（需在 Dashboard 将本服务的 Root Directory 设为 BasscBackend）
+
+[build]
+builder = "nixpacks"
+buildCommand = "pip install -r requirements.txt"
+
+[deploy]
+# 用脚本读取 PORT，避免变量未展开导致 502
+startCommand = "sh start.sh"
+healthcheckPath = "/api/health/"
+healthcheckTimeout = 30
