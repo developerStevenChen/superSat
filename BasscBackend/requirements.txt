@@ -6,4 +6,5 @@ boto3>=1.28
 python-dotenv>=1.0
 gunicorn>=21.0
 dj-database-url>=2.2.0
+psycopg2-binary>=2.9
 # MySQL 可选：pip install mysqlclient 或 PyMySQL
