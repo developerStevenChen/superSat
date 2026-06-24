@@ -10,7 +10,7 @@ fi
 # 每次启动自动执行 migrate，避免登录 500（表不存在）
 python manage.py migrate --noinput
 
-# 若在 Railway Variables 里设置了 DJANGO_SUPERUSER_USERNAME 和 DJANGO_SUPERUSER_PASSWORD，首次启动会自动创建超级用户（已有则跳过；改 env 不会改密码）
+# 若在 Railway Variables 里设置了 DJANGO_SUPERUSER_USERNAME 和 DJANGO_SUPERUSER_PASSWORD，每次启动会创建或同步超级用户密码
 if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ]; then
   python manage.py ensure_superuser
 fi
