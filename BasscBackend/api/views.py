@@ -275,13 +275,18 @@ def homepage(request):
 @permission_classes([AllowAny])
 def auth_login(request):
     """登录：username, password -> 返回 token，前端请求头带 Authorization: Token <token>"""
+    import logging
+    logger = logging.getLogger(__name__)
+    User = get_user_model()
     try:
-        username = request.data.get('username') or request.POST.get('username')
-        password = request.data.get('password') or request.POST.get('password')
+        username = (request.data.get('username') or request.POST.get('username') or '').strip()
+        password = request.data.get('password') or request.POST.get('password') or ''
         if not username or not password:
             return Response({'error': '需要 username 和 password'}, status=status.HTTP_400_BAD_REQUEST)
         user = authenticate(request, username=username, password=password)
         if user is None:
+            exists = User.objects.filter(username=username).exists()
+            logger.warning('Login failed username=%r user_exists=%s', username, exists)
             return Response({'error': '用户名或密码错误'}, status=status.HTTP_401_UNAUTHORIZED)
         if not user.is_superuser and not user.is_staff:
             return Response({'error': '仅超级用户或管理员可登录'}, status=status.HTTP_403_FORBIDDEN)

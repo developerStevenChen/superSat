@@ -1,24 +1,26 @@
 #!/bin/sh
 set -e
-# 确保 PORT 从环境变量读取，避免 Railway 上 502
 PORT="${PORT:-8000}"
 
-# 在 Railway Variables 里设 USE_MINIMAL_SERVER=1 可临时用极简服务排查 502（不改 Start Command）
+echo "[start.sh] PORT=${PORT}"
+
 if [ "$USE_MINIMAL_SERVER" = "1" ]; then
   exec python server_minimal.py
 fi
 
-# 每次启动自动执行 migrate，避免登录 500（表不存在）
+echo "[start.sh] migrate..."
 python manage.py migrate --noinput
 
-# 若在 Railway Variables 里设置了 DJANGO_SUPERUSER_USERNAME 和 DJANGO_SUPERUSER_PASSWORD，每次启动会创建或同步超级用户密码
 if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ]; then
+  echo "[start.sh] ensure_superuser for user=${DJANGO_SUPERUSER_USERNAME}..."
   python manage.py ensure_superuser
+else
+  echo "[start.sh] DJANGO_SUPERUSER_* not set, skip ensure_superuser"
 fi
 
-# 若存在 data_export.json（临时带入的导出文件），自动执行一次 loaddata 后重命名，避免重复导入
 if [ -f data_export.json ]; then
   python manage.py loaddata data_export.json 2>/dev/null && mv data_export.json data_export.json.done 2>/dev/null || true
 fi
 
+echo "[start.sh] starting gunicorn on 0.0.0.0:${PORT}..."
 exec python -m gunicorn config.wsgi:application --bind "0.0.0.0:${PORT}"
