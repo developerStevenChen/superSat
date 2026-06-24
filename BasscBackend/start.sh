@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 # 确保 PORT 从环境变量读取，避免 Railway 上 502
 PORT="${PORT:-8000}"
 

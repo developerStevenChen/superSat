@@ -16,14 +16,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# 从项目根目录加载环境变量：优先 .env，不存在则用 .env.example（便于本地直接用 example 调试）
+# 仅从 .env 加载环境变量（.env.example 仅为模板，避免误用旧项目密钥）
 from dotenv import load_dotenv
-_env_file = BASE_DIR / '.env'
-_env_example = BASE_DIR / '.env.example'
-if _env_file.exists():
-    load_dotenv(_env_file)
-elif _env_example.exists():
-    load_dotenv(_env_example)
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -166,8 +161,28 @@ _default_origins = [
     'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175',
     'http://127.0.0.1:5173', 'http://127.0.0.1:5174', 'http://127.0.0.1:5175',
 ]
+
+
+def _normalize_cors_origin(origin):
+    """Railway 里常只填域名，django-cors-headers 要求带 scheme（https://）。"""
+    o = (origin or '').strip()
+    if not o:
+        return ''
+    if o.startswith('http://') or o.startswith('https://'):
+        return o
+    if '.' in o and ' ' not in o:
+        return f'https://{o}'
+    return o
+
+
 _raw = os.environ.get('CORS_ALLOWED_ORIGINS', '').strip()
-CORS_ALLOWED_ORIGINS = [o.strip() for o in _raw.split(',') if o.strip()] if _raw else _default_origins
+if _raw:
+    CORS_ALLOWED_ORIGINS = [
+        normalized for o in _raw.split(',')
+        if (normalized := _normalize_cors_origin(o))
+    ]
+else:
+    CORS_ALLOWED_ORIGINS = _default_origins
 # Railway 上允许所有 *.railway.app 前端来源（OPTIONS 预检会带上正确 Allow-Origin）
 if os.environ.get('PORT'):
     CORS_ALLOWED_ORIGIN_REGEXES = [r'^https://[a-z0-9-]+\.up\.railway\.app$']
