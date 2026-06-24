@@ -210,7 +210,7 @@ class IntentClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = IntentClient
         fields = [
-            'id', 'grade', 'student_name', 'age', 'phone', 'email', 'zipcode',
+            'id', 'name', 'gender', 'age', 'phone', 'email', 'zipcode',
             'status', 'created_at', 'updated_at',
         ]
         read_only_fields = ['created_at', 'updated_at']

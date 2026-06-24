@@ -51,9 +51,9 @@ class CoachAdmin(admin.ModelAdmin):
 
 @admin.register(IntentClient)
 class IntentClientAdmin(admin.ModelAdmin):
-    list_display = ('student_name', 'grade', 'age', 'phone', 'email', 'zipcode', 'status', 'created_at')
-    list_filter = ('status',)
-    search_fields = ('student_name', 'email', 'phone', 'zipcode')
+    list_display = ('name', 'gender', 'age', 'phone', 'email', 'zipcode', 'status', 'created_at')
+    list_filter = ('status', 'gender')
+    search_fields = ('name', 'email', 'phone', 'zipcode')
 
 
 @admin.register(ContactInfo)

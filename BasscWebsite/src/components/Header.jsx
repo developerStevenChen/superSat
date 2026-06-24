@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { navItems as defaultNavItems } from '../data';
+import { SITE_TITLE } from '../config/site';
 
 const HIDE_NAV_PATHS = ['/micro', '/peripheral'];
 
@@ -54,7 +55,7 @@ export default function Header({ navItems: propNavItems, onTryOutClick }) {
       <header className={`header ${menuOpen ? 'header-nav-open' : ''}`}>
         <div className="header-inner">
           <Link to="/" className="logo" onClick={closeMenu}>
-            Bay Area Evd Speed Skating
+            {SITE_TITLE}
           </Link>
           <button
             type="button"

@@ -277,7 +277,7 @@ class NavItem(models.Model):
 
 
 class IntentClient(models.Model):
-    """Get Start 获客 - 试课意向客户"""
+    """Get Start 获客 - 试课意向客户（Try out 表单）"""
     STATUS_CHOICES = [
         ('Asked', 'Asked'),
         ('talked', 'talked'),
@@ -285,21 +285,20 @@ class IntentClient(models.Model):
         ('admit', 'admit'),
         ('quited', 'quited'),
     ]
-    SKATING_GRADE_CHOICES = [
+    GENDER_CHOICES = [
         ('', '--'),
-        ('beginner', 'Beginner (0-4 month)'),
-        ('intermediate', 'intermediate (4-12month)'),
-        ('advance', 'Advance (12 month+)'),
-        ('speed_skater', 'Speed Skater (Trained Speed skating 3 month and above)'),
-        ('advance_speed_skater', 'Advance Speed skater (Trained speed skating 12month+)'),
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('other', 'Other'),
+        ('prefer_not_to_say', 'Prefer not to say'),
     ]
-    grade = models.CharField(
+    name = models.CharField(max_length=200, verbose_name='Name')
+    gender = models.CharField(
         max_length=30,
         blank=True,
-        choices=SKATING_GRADE_CHOICES,
-        verbose_name='Skating grade',
+        choices=GENDER_CHOICES,
+        verbose_name='Gender',
     )
-    student_name = models.CharField(max_length=200, verbose_name='学员姓名')
     age = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name='年龄')
     phone = models.CharField(max_length=50, blank=True, verbose_name='电话')
     email = models.EmailField(max_length=254, blank=True, verbose_name='Email')
@@ -319,7 +318,7 @@ class IntentClient(models.Model):
         verbose_name_plural = '意向客户'
 
     def __str__(self):
-        return f'{self.student_name} ({self.status})'
+        return f'{self.name} ({self.status})'
 
 
 class ContactInfo(models.Model):

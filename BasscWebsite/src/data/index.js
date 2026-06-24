@@ -8,28 +8,28 @@ export const homePagePic = [
   {
     id: 1,
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80',
-    title: 'Bay Area EVD Speed Skating Club',
+    title: 'Journey of Disciples',
     description:
       'Youth speed skating training program in Santa Clara and San Mateo. Focused on developing the next generation of speed skating athletes in Silicon Valley.',
   },
   {
     id: 2,
     image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=1920&q=80',
-    title: 'Bay Area EVD Speed Skating Club',
+    title: 'Journey of Disciples',
     description:
       'Youth speed skating training program in Santa Clara and San Mateo. Focused on developing the next generation of speed skating athletes in Silicon Valley.',
   },
   {
     id: 3,
     image: 'https://images.unsplash.com/photo-1517963879433-6ad2b056d712?w=1920&q=80',
-    title: 'Bay Area EVD Speed Skating Club',
+    title: 'Journey of Disciples',
     description:
       'Focused on developing the next generation of speed skating athletes in Silicon Valley.',
   },
   {
     id: 4,
     image: 'https://images.unsplash.com/photo-1541625602330-2277a4c46182?w=1920&q=80',
-    title: 'Bay Area EVD Speed Skating Club',
+    title: 'Journey of Disciples',
     description:
       'Youth speed skating training program in Santa Clara and San Mateo. Focused on developing the next generation of speed skating athletes in Silicon Valley.',
   },
@@ -40,7 +40,7 @@ export const boards = [
   {
     id: 1,
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
-    title: 'Bay Area EVD Speed Skating Club',
+    title: 'Journey of Disciples',
     description:
       'Youth speed skating training program in Santa Clara and San Mateo. Focused on developing the next generation of speed skating athletes in Silicon Valley.',
   },
@@ -72,7 +72,7 @@ export const introductions = [
   {
     id: 1,
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
-    title: 'Bay Area EVD Speed Skating Club',
+    title: 'Journey of Disciples',
     text:
       'Bay Area EVD Speed Skating Club. Youth speed skating training program in Santa Clara and San Mateo. Focused on developing the next generation of speed skating athletes in Silicon Valley. Our athletes train with purpose, discipline, and passion—developing not only world-class skating skills, but also strength, resilience, and a lifelong love for the sport.',
   },

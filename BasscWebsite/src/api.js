@@ -279,8 +279,8 @@ export async function submitIntentClient(data) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      grade: data.grade?.trim() || '',
-      student_name: data.student_name?.trim() || '',
+      name: data.name?.trim() || '',
+      gender: data.gender?.trim() || '',
       age: data.age ? Number(data.age) : null,
       phone: data.phone?.trim() || '',
       email: data.email?.trim() || '',
@@ -288,7 +288,7 @@ export async function submitIntentClient(data) {
     }),
   });
   const result = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(result.detail || result.student_name?.[0] || result.email?.[0] || 'Submit failed');
+  if (!res.ok) throw new Error(result.detail || result.name?.[0] || result.email?.[0] || 'Submit failed');
   return result;
 }
 

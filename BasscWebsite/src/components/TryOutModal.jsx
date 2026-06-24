@@ -2,24 +2,25 @@ import { useState } from 'react';
 import { submitIntentClient } from '../api';
 import './TryOutModal.css';
 
-const SKATING_GRADE_OPTIONS = [
-  { value: '', label: '-- Select Skating grade --' },
-  { value: 'beginner', label: 'Beginner (0-4 month)' },
-  { value: 'intermediate', label: 'intermediate (4-12month)' },
-  { value: 'advance', label: 'Advance (12 month+)' },
-  { value: 'speed_skater', label: 'Speed Skater (Trained Speed skating 3 month and above)' },
-  { value: 'advance_speed_skater', label: 'Advance Speed skater (Trained speed skating 12month+)' },
+const GENDER_OPTIONS = [
+  { value: '', label: '-- Select gender --' },
+  { value: 'male', label: 'Male' },
+  { value: 'female', label: 'Female' },
+  { value: 'other', label: 'Other' },
+  { value: 'prefer_not_to_say', label: 'Prefer not to say' },
 ];
 
+const EMPTY_FORM = {
+  name: '',
+  age: '',
+  gender: '',
+  phone: '',
+  email: '',
+  zipcode: '',
+};
+
 export default function TryOutModal({ open, onClose }) {
-  const [form, setForm] = useState({
-    grade: '',
-    student_name: '',
-    age: '',
-    phone: '',
-    email: '',
-    zipcode: '',
-  });
+  const [form, setForm] = useState(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -38,7 +39,7 @@ export default function TryOutModal({ open, onClose }) {
     try {
       await submitIntentClient(form);
       setSuccess(true);
-      setForm({ grade: '', student_name: '', age: '', phone: '', email: '', zipcode: '' });
+      setForm(EMPTY_FORM);
       setTimeout(() => {
         setSuccess(false);
         onClose();
@@ -69,11 +70,11 @@ export default function TryOutModal({ open, onClose }) {
           <form onSubmit={handleSubmit} className="tryout-modal-form">
             {error && <div className="tryout-modal-error">{error}</div>}
             <label>
-              Student Name *
+              Name *
               <input
                 type="text"
-                value={form.student_name}
-                onChange={(e) => handleChange('student_name', e.target.value)}
+                value={form.name}
+                onChange={(e) => handleChange('name', e.target.value)}
                 required
                 placeholder="Full name"
               />
@@ -90,13 +91,13 @@ export default function TryOutModal({ open, onClose }) {
               />
             </label>
             <label>
-              Skating grade
+              Gender
               <select
-                value={form.grade}
-                onChange={(e) => handleChange('grade', e.target.value)}
+                value={form.gender}
+                onChange={(e) => handleChange('gender', e.target.value)}
                 className="tryout-modal-select"
               >
-                {SKATING_GRADE_OPTIONS.map((opt) => (
+                {GENDER_OPTIONS.map((opt) => (
                   <option key={opt.value || 'empty'} value={opt.value}>
                     {opt.label}
                   </option>

@@ -10,17 +10,16 @@ const STATUS_OPTIONS = [
   { value: 'quited', label: 'quited' },
 ];
 
-const SKATING_GRADE_LABELS = {
-  beginner: 'Beginner (0-4 month)',
-  intermediate: 'intermediate (4-12month)',
-  advance: 'Advance (12 month+)',
-  speed_skater: 'Speed Skater (Trained Speed skating 3 month and above)',
-  advance_speed_skater: 'Advance Speed skater (Trained speed skating 12month+)',
+const GENDER_LABELS = {
+  male: 'Male',
+  female: 'Female',
+  other: 'Other',
+  prefer_not_to_say: 'Prefer not to say',
 };
 
-function skatingGradeLabel(value) {
+function genderLabel(value) {
   if (!value) return '—';
-  return SKATING_GRADE_LABELS[value] || value;
+  return GENDER_LABELS[value] || value;
 }
 
 export default function IntentClientManage() {
@@ -47,7 +46,7 @@ export default function IntentClientManage() {
   }
 
   async function handleDelete(row) {
-    if (!window.confirm(`Delete "${row.student_name}"?`)) return;
+    if (!window.confirm(`Delete "${row.name}"?`)) return;
     try {
       await dashboardDelete(RESOURCE, row.id);
       load();
@@ -69,8 +68,8 @@ export default function IntentClientManage() {
           <table className="dashboard-table">
             <thead>
               <tr>
-                <th>Student Name</th>
-                <th>Skating grade</th>
+                <th>Name</th>
+                <th>Gender</th>
                 <th>Age</th>
                 <th>Phone</th>
                 <th>Email</th>
@@ -83,8 +82,8 @@ export default function IntentClientManage() {
             <tbody>
               {list.map((row) => (
                 <tr key={row.id}>
-                  <td>{row.student_name || '—'}</td>
-                  <td>{skatingGradeLabel(row.grade)}</td>
+                  <td>{row.name || '—'}</td>
+                  <td>{genderLabel(row.gender)}</td>
                   <td>{row.age ?? '—'}</td>
                   <td>{row.phone || '—'}</td>
                   <td>{row.email || '—'}</td>
