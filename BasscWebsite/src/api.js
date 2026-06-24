@@ -4,6 +4,16 @@
  * 2. import.meta.env.VITE_API_BASE_URL — baked in at webpack build time
  * 3. localhost dev → http://localhost:8000
  */
+function normalizeApiOrigin(raw) {
+  let s = (raw || '').trim();
+  if (!s) return '';
+  s = s.replace(/\/api\/?$/, '').replace(/\/$/, '');
+  if (s.startsWith('http://') || s.startsWith('https://')) return s;
+  // Railway 里常只填域名，自动补 https://
+  if (s.includes('.') && !s.includes(' ')) return `https://${s}`;
+  return '';
+}
+
 function resolveApiOrigin() {
   const fromRuntime =
     typeof window !== 'undefined' && window.__RUNTIME_CONFIG__?.API_ORIGIN;
@@ -12,10 +22,8 @@ function resolveApiOrigin() {
     import.meta.env.VITE_API_BASE_URL || '',
   ];
   for (const raw of candidates) {
-    const s = (raw || '').trim();
-    if (s.startsWith('http://') || s.startsWith('https://')) {
-      return s.replace(/\/api\/?$/, '').replace(/\/$/, '');
-    }
+    const origin = normalizeApiOrigin(raw);
+    if (origin) return origin;
   }
   if (
     typeof window !== 'undefined' &&

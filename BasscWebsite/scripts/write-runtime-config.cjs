@@ -6,7 +6,10 @@ const fs = require('fs');
 const path = require('path');
 
 const raw = (process.env.VITE_API_BASE_URL || process.env.API_BASE_URL || '').trim();
-const origin = raw.replace(/\/api\/?$/, '').replace(/\/$/, '');
+let origin = raw.replace(/\/api\/?$/, '').replace(/\/$/, '');
+if (origin && !origin.startsWith('http://') && !origin.startsWith('https://') && origin.includes('.')) {
+  origin = `https://${origin}`;
+}
 const distDir = path.join(__dirname, '..', 'dist');
 const outFile = path.join(distDir, 'runtime-config.js');
 const content = `window.__RUNTIME_CONFIG__=${JSON.stringify({ API_ORIGIN: origin })};\n`;
