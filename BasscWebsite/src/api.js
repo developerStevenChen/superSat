@@ -24,13 +24,22 @@ function resolveApiOrigin() {
   ) {
     return 'http://localhost:8000';
   }
-  console.error(
-    '[superSat] Backend URL not configured. Set VITE_API_BASE_URL on Railway superSat_FE and redeploy.'
-  );
   return '';
 }
 
-export const API_BASE = `${resolveApiOrigin()}/api`;
+/** @returns {string} e.g. https://backend.example.com/api */
+export function requireApiBase() {
+  const origin = resolveApiOrigin();
+  if (!origin) {
+    throw new Error(
+      'Backend URL not configured. On Railway open superSat_FE → Variables → set VITE_API_BASE_URL to your superSat_BE domain (no /api), then Redeploy. Check /runtime-config.js in the browser.'
+    );
+  }
+  return `${origin}/api`;
+}
+
+/** @deprecated Prefer requireApiBase(); empty string when backend URL is not configured. */
+export const API_BASE = resolveApiOrigin() ? `${resolveApiOrigin()}/api` : '';
 
 /** Token saved after login; request header Authorization: Token <token>; no CSRF */
 const TOKEN_KEY = 'bassc_admin_token';
@@ -226,7 +235,7 @@ export async function deactivateAdmin(id) {
 
 // ---------- Dashboard auth (Token, no CSRF) ----------
 export async function login(username, password) {
-  const url = `${API_BASE}/auth/login/`;
+  const url = `${requireApiBase()}/auth/login/`;
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -234,7 +243,9 @@ export async function login(username, password) {
   });
   const text = await res.text();
   if (text.trimStart().startsWith('<')) {
-    throw new Error('Server returned HTML instead of JSON. Check backend is running (http://127.0.0.1:8000) and API URL is correct.');
+    throw new Error(
+      `Server returned HTML instead of JSON. Request was sent to: ${url}. Set VITE_API_BASE_URL on Railway superSat_FE to your superSat_BE URL and Redeploy. Open /runtime-config.js to verify.`
+    );
   }
   const data = JSON.parse(text);
   if (!res.ok) throw new Error(data.detail || data.error || 'Login failed');
