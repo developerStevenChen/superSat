@@ -1,23 +1,36 @@
 /**
- * API base URL, must point to Django /api root.
- * - If VITE_API_BASE_URL is set at build time, use it;
- * - Else: local dev uses http://localhost:8000, production uses backend Railway URL.
+ * API base URL resolution (first match wins):
+ * 1. window.__RUNTIME_CONFIG__.API_ORIGIN — written at container start from VITE_API_BASE_URL (Railway)
+ * 2. import.meta.env.VITE_API_BASE_URL — baked in at webpack build time
+ * 3. localhost dev → http://localhost:8000
  */
-const _raw = import.meta.env.VITE_API_BASE_URL || '';
-let _origin;
-if (_raw.startsWith('http://') || _raw.startsWith('https://')) {
-  _origin = _raw.replace(/\/api\/?$/, '').replace(/\/$/, '');
-} else if (
-  typeof window !== 'undefined' &&
-  window.location &&
-  window.location.hostname !== 'localhost' &&
-  window.location.hostname !== '127.0.0.1'
-) {
-  _origin = 'https://basscnewwebsite-production.up.railway.app';
-} else {
-  _origin = 'http://localhost:8000';
+function resolveApiOrigin() {
+  const fromRuntime =
+    typeof window !== 'undefined' && window.__RUNTIME_CONFIG__?.API_ORIGIN;
+  const candidates = [
+    fromRuntime,
+    import.meta.env.VITE_API_BASE_URL || '',
+  ];
+  for (const raw of candidates) {
+    const s = (raw || '').trim();
+    if (s.startsWith('http://') || s.startsWith('https://')) {
+      return s.replace(/\/api\/?$/, '').replace(/\/$/, '');
+    }
+  }
+  if (
+    typeof window !== 'undefined' &&
+    window.location &&
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ) {
+    return 'http://localhost:8000';
+  }
+  console.error(
+    '[superSat] Backend URL not configured. Set VITE_API_BASE_URL on Railway superSat_FE and redeploy.'
+  );
+  return '';
 }
-export const API_BASE = _origin + '/api';
+
+export const API_BASE = `${resolveApiOrigin()}/api`;
 
 /** Token saved after login; request header Authorization: Token <token>; no CSRF */
 const TOKEN_KEY = 'bassc_admin_token';

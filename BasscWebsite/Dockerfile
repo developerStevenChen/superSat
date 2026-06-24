@@ -9,5 +9,5 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# Railway 注入 PORT，需用 shell 形式展开
+# Railway 注入 PORT；npm start 会先写 runtime-config.js 再 serve
 CMD ["sh", "-c", "npm run start"]

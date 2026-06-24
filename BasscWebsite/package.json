@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "webpack serve --mode development",
     "build": "webpack --mode production",
-    "start": "serve -s dist -l ${PORT:-3000}",
+    "start": "node scripts/write-runtime-config.cjs && serve -s dist -l ${PORT:-3000}",
     "lint": "eslint .",
     "preview": "npx serve dist"
   },
