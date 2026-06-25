@@ -151,9 +151,9 @@ export const newsList = [
 // Nav (placeholder links; labels in English)
 export const navItems = [
   { id: 'class', label: 'Program', path: '/class' },
-  { id: 'class_schedule', label: 'Class Schedule', path: '/class-schedule' },
+  { id: 'class_schedule', label: 'Activity Schedule', path: '/class-schedule' },
   { id: 'event', label: 'Events', path: '/event' },
-  { id: 'athlete', label: 'Athletes', path: '/athlete' },
+  { id: 'athlete', label: 'Shares', path: '/athlete' },
   { id: 'coach', label: 'Coach', path: '/coach' },
   { id: 'news', label: 'News', path: '/news' },
   { id: 'contact', label: 'Contact', path: '/contact' },

@@ -6,7 +6,7 @@ export default function DashboardHome() {
     { to: '/dashboard/boards', label: 'Boards', desc: 'Homepage boards / sections' },
     { to: '/dashboard/introductions', label: 'About the Club', desc: 'Intro carousel content' },
     { to: '/dashboard/pathways', label: 'Pathway', desc: 'Pathway card below About the Club' },
-    { to: '/dashboard/classes', label: 'Class Schedule', desc: 'Open class sessions (calendar)' },
+    { to: '/dashboard/classes', label: 'Activity Schedule', desc: 'Open activity sessions (calendar)' },
     { to: '/dashboard/events', label: 'Events', desc: 'Event list & details' },
     { to: '/dashboard/awards', label: 'Awards', desc: 'Awards & extra photos' },
     { to: '/dashboard/news', label: 'News', desc: 'News list and detail' },

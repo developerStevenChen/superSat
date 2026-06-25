@@ -6,12 +6,18 @@ import { SITE_TITLE } from '../config/site';
 
 const HIDE_NAV_PATHS = ['/micro', '/peripheral', '/award'];
 
-/** Nav items from API may still say "Courses"; always show Program for /class. */
+/** Nav labels from API may be outdated; enforce current display names by path. */
+const NAV_LABEL_BY_PATH = {
+  '/class': 'Program',
+  '/class-schedule': 'Activity Schedule',
+  '/athlete': 'Shares',
+};
+
 function normalizeNavItems(items) {
   return items
     .filter((item) => !HIDE_NAV_PATHS.includes(item.path))
     .map((item) =>
-      item.path === '/class' ? { ...item, label: 'Program' } : item
+      NAV_LABEL_BY_PATH[item.path] ? { ...item, label: NAV_LABEL_BY_PATH[item.path] } : item
     );
 }
 

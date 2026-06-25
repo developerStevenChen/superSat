@@ -205,8 +205,8 @@ class ClassSession(models.Model):
 
     class Meta:
         ordering = ['sort_order', 'time']
-        verbose_name = '上课排期'
-        verbose_name_plural = '上课排期'
+        verbose_name = 'Activity Schedule'
+        verbose_name_plural = 'Activity Schedules'
 
     def __str__(self):
         return f'{self.time} - {self.category}'
@@ -230,8 +230,8 @@ class Athlete(models.Model):
 
     class Meta:
         ordering = ['sort_order', 'name']
-        verbose_name = '运动员'
-        verbose_name_plural = '运动员'
+        verbose_name = 'Share'
+        verbose_name_plural = 'Shares'
 
     def __str__(self):
         return self.name

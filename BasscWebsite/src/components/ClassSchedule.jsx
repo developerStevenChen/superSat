@@ -10,7 +10,7 @@ export default function ClassSchedule({ classes: propClasses }) {
   return (
     <section className="class-schedule-section">
       <div className="container">
-        <h2 className="section-title">Class Schedule</h2>
+        <h2 className="section-title">Activity Schedule</h2>
         <div className="class-schedule-grid">
           {list.map((item) => (
             <article key={item.id} className="class-card">

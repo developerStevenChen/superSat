@@ -33,7 +33,7 @@ import './App.css';
 const placeholderTitles = {
   class: 'Program',
   event: 'Events',
-  athlete: 'Athletes',
+  athlete: 'Shares',
   coach: 'Coach',
   award: 'Awards',
   news: 'News',

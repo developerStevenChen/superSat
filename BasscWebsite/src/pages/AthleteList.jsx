@@ -30,11 +30,11 @@ export default function AthleteList() {
       <Header />
       <main className="list-page athlete-list-page">
         <div className="container">
-          <h1 className="list-page-title">Athletes</h1>
+          <h1 className="list-page-title">Shares</h1>
           {loading ? (
             <p className="list-page-loading">Loading...</p>
           ) : list.length === 0 ? (
-            <p className="list-page-empty">No athletes yet.</p>
+            <p className="list-page-empty">No shares yet.</p>
           ) : (
             <div className="list-page-grid">
               {list.map((item) => (

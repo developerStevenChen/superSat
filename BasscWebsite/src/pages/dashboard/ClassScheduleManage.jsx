@@ -95,7 +95,7 @@ export default function ClassScheduleManage() {
   }
 
   async function handleDelete(row) {
-    if (!window.confirm(`Delete class "${row.time} - ${row.category}"?`)) return;
+    if (!window.confirm(`Delete session "${row.time} - ${row.category}"?`)) return;
     try {
       await dashboardDelete(RESOURCE, row.id);
       load();
@@ -106,7 +106,7 @@ export default function ClassScheduleManage() {
 
   return (
     <div className="dashboard-section">
-      <h2>Class Schedule (Sessions)</h2>
+      <h2>Activity Schedule (Sessions)</h2>
       <div className="dashboard-toolbar">
         <span />
         <button type="button" className="dashboard-btn" onClick={openAdd}>
@@ -156,7 +156,7 @@ export default function ClassScheduleManage() {
       {modalOpen && (
         <div className="dashboard-modal-overlay" onClick={() => setModalOpen(false)}>
           <div className="dashboard-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="dashboard-modal-header">{editing ? 'Edit Class Session' : 'Add Class Session'}</div>
+            <div className="dashboard-modal-header">{editing ? 'Edit Activity Session' : 'Add Activity Session'}</div>
             <form onSubmit={handleSubmit} className="dashboard-modal-body dashboard-form">
               {submitError && <div className="login-error">{submitError}</div>}
               <label>

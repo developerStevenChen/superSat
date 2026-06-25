@@ -100,7 +100,7 @@ export default function AthleteManage() {
 
   return (
     <div className="dashboard-section">
-      <h2>Athletes</h2>
+      <h2>Shares</h2>
       <div className="dashboard-toolbar">
         <span />
         <button type="button" className="dashboard-btn" onClick={openAdd}>Add</button>
@@ -146,7 +146,7 @@ export default function AthleteManage() {
       {modalOpen && (
         <div className="dashboard-modal-overlay" onClick={() => setModalOpen(false)}>
           <div className="dashboard-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="dashboard-modal-header">{editing ? 'Edit Athlete' : 'Add Athlete'}</div>
+            <div className="dashboard-modal-header">{editing ? 'Edit Share' : 'Add Share'}</div>
             <form onSubmit={handleSubmit} className="dashboard-modal-body dashboard-form">
               {submitError && <div className="login-error">{submitError}</div>}
               <label>

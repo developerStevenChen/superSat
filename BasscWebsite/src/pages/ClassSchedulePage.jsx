@@ -33,14 +33,14 @@ export default function ClassSchedulePage() {
         {loading ? (
           <section className="class-schedule-section">
             <div className="container">
-              <h2 className="section-title">Class Schedule</h2>
+              <h2 className="section-title">Activity Schedule</h2>
               <p className="list-page-loading">Loading...</p>
             </div>
           </section>
         ) : list.length === 0 ? (
           <section className="class-schedule-section">
             <div className="container">
-              <h2 className="section-title">Class Schedule</h2>
+              <h2 className="section-title">Activity Schedule</h2>
               <p className="list-page-empty">No open classes at the moment.</p>
             </div>
           </section>
