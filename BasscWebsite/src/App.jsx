@@ -31,7 +31,7 @@ import AdminManage from './pages/dashboard/AdminManage';
 import './App.css';
 
 const placeholderTitles = {
-  class: 'Courses',
+  class: 'Program',
   event: 'Events',
   athlete: 'Athletes',
   coach: 'Coach',

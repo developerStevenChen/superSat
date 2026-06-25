@@ -144,7 +144,7 @@ export default function CourseManage() {
 
   return (
     <div className="dashboard-section">
-      <h2>Courses</h2>
+      <h2>Programs</h2>
       <div className="dashboard-toolbar">
         <span />
         <button type="button" className="dashboard-btn" onClick={openAdd}>
@@ -188,7 +188,7 @@ export default function CourseManage() {
       {modalOpen && (
         <div className="dashboard-modal-overlay" onClick={() => setModalOpen(false)}>
           <div className="dashboard-modal dashboard-modal-wide" onClick={(e) => e.stopPropagation()}>
-            <div className="dashboard-modal-header">{editing ? 'Edit Course' : 'Add Course'}</div>
+            <div className="dashboard-modal-header">{editing ? 'Edit Program' : 'Add Program'}</div>
             <form onSubmit={handleSubmit} className="dashboard-modal-body dashboard-form">
               {submitError && <div className="login-error">{submitError}</div>}
               <label>

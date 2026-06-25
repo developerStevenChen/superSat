@@ -4,12 +4,21 @@ import { Link } from 'react-router-dom';
 import { navItems as defaultNavItems } from '../data';
 import { SITE_TITLE } from '../config/site';
 
-const HIDE_NAV_PATHS = ['/micro', '/peripheral'];
+const HIDE_NAV_PATHS = ['/micro', '/peripheral', '/award'];
+
+/** Nav items from API may still say "Courses"; always show Program for /class. */
+function normalizeNavItems(items) {
+  return items
+    .filter((item) => !HIDE_NAV_PATHS.includes(item.path))
+    .map((item) =>
+      item.path === '/class' ? { ...item, label: 'Program' } : item
+    );
+}
 
 export default function Header({ navItems: propNavItems, onTryOutClick }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const raw = propNavItems?.length ? propNavItems : defaultNavItems;
-  const navItems = raw.filter((item) => !HIDE_NAV_PATHS.includes(item.path));
+  const navItems = normalizeNavItems(raw);
 
   const closeMenu = () => setMenuOpen(false);
 

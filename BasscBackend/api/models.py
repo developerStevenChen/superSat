@@ -183,8 +183,8 @@ class Course(models.Model):
 
     class Meta:
         ordering = ['sort_order', 'slug']
-        verbose_name = '课程'
-        verbose_name_plural = '课程'
+        verbose_name = 'Program'
+        verbose_name_plural = 'Programs'
 
     def __str__(self):
         return self.title

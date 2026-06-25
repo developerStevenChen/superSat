@@ -147,7 +147,7 @@ export default function NavItemManage() {
                   value={form.label}
                   onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))}
                   required
-                  placeholder="Courses"
+                  placeholder="Program"
                 />
               </label>
               <label>

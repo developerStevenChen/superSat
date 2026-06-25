@@ -39,7 +39,7 @@ export default function DashboardLayout() {
     { to: '/dashboard/events', end: false, label: 'Events' },
     { to: '/dashboard/awards', end: false, label: 'Awards' },
     { to: '/dashboard/navitems', end: false, label: 'Nav Items' },
-    { to: '/dashboard/courses', end: false, label: 'Courses' },
+    { to: '/dashboard/courses', end: false, label: 'Programs' },
     { to: '/dashboard/classes', end: false, label: 'Classes' },
     { to: '/dashboard/athletes', end: false, label: 'Athletes' },
     { to: '/dashboard/coaches', end: false, label: 'Coaches' },

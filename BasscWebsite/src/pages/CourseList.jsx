@@ -31,11 +31,11 @@ export default function CourseList() {
       <Header />
       <main className="course-list-page">
         <div className="container">
-          <h1 className="course-list-title">Courses</h1>
+          <h1 className="course-list-title">Programs</h1>
           {loading ? (
             <p className="course-list-loading">Loading...</p>
           ) : courses.length === 0 ? (
-            <p className="course-list-empty">No courses yet.</p>
+            <p className="course-list-empty">No programs yet.</p>
           ) : (
             <ul className="course-list">
               {courses.map((c) => (

@@ -46,8 +46,8 @@ export default function CourseDetail() {
       <>
         <Header />
         <main className="course-page course-page-empty">
-          <p>Course not found.</p>
-          <Link to="/class">Back to Courses</Link>
+          <p>Program not found.</p>
+          <Link to="/class">Back to Programs</Link>
         </main>
         <Footer />
       </>
