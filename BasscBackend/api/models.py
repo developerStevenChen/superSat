@@ -213,16 +213,11 @@ class ClassSession(models.Model):
 
 
 class Athlete(models.Model):
-    """运动员 - 对应前端 /athlete 列表"""
+    """Shares 分享 - 对应前端 /athlete 列表"""
     image = models.URLField(max_length=500, blank=True, verbose_name='照片链接')
-    name = models.CharField(max_length=100, verbose_name='姓名')
+    name = models.CharField(max_length=100, verbose_name='名称')
     intro = models.TextField(blank=True, verbose_name='介绍')
-    team_level = models.PositiveSmallIntegerField(
-        default=1,
-        choices=[(1, 'Level 1'), (2, 'Level 2')],
-        verbose_name='队伍等级',
-    )
-    source = models.CharField(max_length=200, blank=True, verbose_name='入队方式/来源')
+    activity_name = models.CharField(max_length=200, blank=True, verbose_name='活动名称')
     sort_order = models.PositiveIntegerField(default=0, verbose_name='排序')
     is_active = models.BooleanField(default=True, verbose_name='是否启用')
     created_at = models.DateTimeField(default=timezone.now, verbose_name='创建时间')

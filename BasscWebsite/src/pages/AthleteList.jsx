@@ -45,9 +45,10 @@ export default function AthleteList() {
                   <div className="list-card-body">
                     <div className="list-card-name-row">
                       <h2 className="list-card-name">{item.name}</h2>
-                      <span className="list-card-level">Level {item.team_level}</span>
+                      {item.activity_name && (
+                        <span className="list-card-level">{item.activity_name}</span>
+                      )}
                     </div>
-                    {item.source && <span className="list-card-source">{item.source}</span>}
                     <p className="list-card-intro">{item.intro || '—'}</p>
                   </div>
                 </article>

@@ -41,7 +41,7 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Athlete)
 class AthleteAdmin(admin.ModelAdmin):
-    list_display = ('name', 'team_level', 'sort_order', 'is_active')
+    list_display = ('name', 'activity_name', 'sort_order', 'is_active')
 
 
 @admin.register(Coach)
