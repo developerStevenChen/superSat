@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import TryOutModal from '../components/TryOutModal';
 import { fetchCourseBySlug } from '../api';
+import { PROGRAM_LIST_PATH } from '../config/routes';
 
 export default function CourseDetail() {
   const { slug } = useParams();
@@ -47,7 +48,7 @@ export default function CourseDetail() {
         <Header />
         <main className="course-page course-page-empty">
           <p>Program not found.</p>
-          <Link to="/class">Back to Programs</Link>
+          <Link to={PROGRAM_LIST_PATH}>Back to Programs</Link>
         </main>
         <Footer />
       </>

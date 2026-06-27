@@ -8,6 +8,7 @@ const HIDE_NAV_PATHS = ['/micro', '/peripheral', '/award'];
 
 /** Nav labels from API may be outdated; enforce current display names by path. */
 const NAV_LABEL_BY_PATH = {
+  '/program': 'Program',
   '/class': 'Program',
   '/class-schedule': 'Activity Schedule',
   '/athlete': 'Shares',
@@ -16,9 +17,13 @@ const NAV_LABEL_BY_PATH = {
 function normalizeNavItems(items) {
   return items
     .filter((item) => !HIDE_NAV_PATHS.includes(item.path))
-    .map((item) =>
-      NAV_LABEL_BY_PATH[item.path] ? { ...item, label: NAV_LABEL_BY_PATH[item.path] } : item
-    );
+    .map((item) => {
+      let path = item.path;
+      if (path === '/class') path = '/program';
+      else if (path?.startsWith('/class/')) path = path.replace(/^\/class\//, '/');
+      const label = NAV_LABEL_BY_PATH[path] || NAV_LABEL_BY_PATH[item.path];
+      return label ? { ...item, path, label } : { ...item, path };
+    });
 }
 
 export default function Header({ navItems: propNavItems, onTryOutClick }) {

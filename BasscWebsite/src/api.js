@@ -147,7 +147,7 @@ export async function fetchHomepage() {
   };
 }
 
-/** Get single course by slug (for /class/:slug page) */
+/** Get single course by slug (for /:slug program page) */
 export async function fetchCourseBySlug(slug) {
   const res = await fetch(`${API_BASE}/courses/by_slug/${encodeURIComponent(slug)}/`);
   if (res.status === 404) return null;
@@ -155,7 +155,7 @@ export async function fetchCourseBySlug(slug) {
   return res.json();
 }
 
-/** Get list of courses (for /class list and dashboard) */
+/** Get list of courses (for /program list and dashboard) */
 export async function fetchCourses() {
   const res = await fetch(`${API_BASE}/courses/`);
   if (!res.ok) throw new Error('Courses list failed');

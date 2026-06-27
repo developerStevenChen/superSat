@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import NewsDetail from './pages/NewsDetail';
 import PlaceholderPage from './pages/PlaceholderPage';
@@ -28,7 +28,13 @@ import AwardManage from './pages/dashboard/AwardManage';
 import AwardList from './pages/AwardList';
 import ClassScheduleManage from './pages/dashboard/ClassScheduleManage';
 import AdminManage from './pages/dashboard/AdminManage';
+import { PROGRAM_LIST_PATH } from './config/routes';
 import './App.css';
+
+function LegacyClassCourseRedirect() {
+  const { slug } = useParams();
+  return <Navigate to={`/${slug}`} replace />;
+}
 
 const placeholderTitles = {
   class: 'Program',
@@ -49,8 +55,9 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/news/:id" element={<NewsDetail />} />
         <Route path="/news" element={<PlaceholderPage title={placeholderTitles.news} />} />
-        <Route path="/class" element={<CourseList />} />
-        <Route path="/class/:slug" element={<CourseDetail />} />
+        <Route path={PROGRAM_LIST_PATH} element={<CourseList />} />
+        <Route path="/class" element={<Navigate to={PROGRAM_LIST_PATH} replace />} />
+        <Route path="/class/:slug" element={<LegacyClassCourseRedirect />} />
         <Route path="/class-schedule" element={<ClassSchedulePage />} />
         <Route path="/event" element={<EventList />} />
         <Route path="/athlete" element={<AthleteList />} />
@@ -78,6 +85,7 @@ export default function App() {
           <Route path="contactinfo" element={<ContactInfoManage />} />
           <Route path="admins" element={<AdminManage />} />
         </Route>
+        <Route path="/:slug" element={<CourseDetail />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

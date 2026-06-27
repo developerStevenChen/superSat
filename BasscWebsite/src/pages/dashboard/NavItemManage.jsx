@@ -157,7 +157,7 @@ export default function NavItemManage() {
                   value={form.path}
                   onChange={(e) => setForm((f) => ({ ...f, path: e.target.value }))}
                   required
-                  placeholder="/class"
+                  placeholder="/program or /your-slug"
                 />
               </label>
               <label>

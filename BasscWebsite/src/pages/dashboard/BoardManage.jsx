@@ -199,7 +199,7 @@ export default function BoardManage() {
                   type="text"
                   value={form.link}
                   onChange={(e) => setForm((f) => ({ ...f, link: e.target.value }))}
-                  placeholder="/class"
+                  placeholder="/program"
                 />
               </label>
               <label>

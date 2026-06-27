@@ -165,7 +165,7 @@ class NewsImage(models.Model):
 
 
 class Course(models.Model):
-    """课程页 - 对应前端 /class/<slug>，如 speedskating, PE-training"""
+    """Program 页 - 对应前端 /<slug>，如 /speedskating；列表页 /program"""
     slug = models.SlugField(max_length=100, unique=True, verbose_name='URL 片段')
     title = models.CharField(max_length=200, verbose_name='课程标题')
     hero_video_url = models.URLField(max_length=500, blank=True, verbose_name='Hero 视频链接')

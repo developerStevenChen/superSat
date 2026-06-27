@@ -6,6 +6,7 @@ import {
   dashboardDelete,
   uploadImage,
 } from '../../api';
+import { programDetailPath } from '../../config/routes';
 
 const RESOURCE = 'courses';
 const IMAGE_KEYS = ['image_1', 'image_2', 'image_3', 'image_4', 'image_5', 'image_6'];
@@ -192,7 +193,7 @@ export default function CourseManage() {
             <form onSubmit={handleSubmit} className="dashboard-modal-body dashboard-form">
               {submitError && <div className="login-error">{submitError}</div>}
               <label>
-                Slug (URL: /class/<strong>slug</strong>)
+                Slug (URL: <strong>{programDetailPath('your-slug')}</strong>)
                 <input
                   type="text"
                   value={form.slug}

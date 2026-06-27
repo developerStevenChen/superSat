@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { defaultHomepage } from '../data';
+import { normalizePublicPath, PROGRAM_LIST_PATH } from '../config/routes';
 
 const boardLinks = {
-  1: '/class',
+  1: PROGRAM_LIST_PATH,
   2: '/event',
   3: '/coach',
   4: '/award',
@@ -20,7 +21,7 @@ export default function BoardSection({ boards: propBoards }) {
           {boards.map((board) => (
             <Link
               key={board.id}
-              to={board.link || boardLinks[board.id] || '#'}
+              to={normalizePublicPath(board.link) || boardLinks[board.id] || '#'}
               className="board-card"
             >
               <div className="board-image-wrap">

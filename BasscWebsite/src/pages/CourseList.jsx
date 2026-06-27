@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { fetchCourses } from '../api';
+import { programDetailPath } from '../config/routes';
 
 export default function CourseList() {
   const [courses, setCourses] = useState([]);
@@ -40,7 +41,7 @@ export default function CourseList() {
             <ul className="course-list">
               {courses.map((c) => (
                 <li key={c.id}>
-                  <Link to={`/class/${c.slug}`} className="course-list-link">
+                  <Link to={programDetailPath(c.slug)} className="course-list-link">
                     {c.title}
                   </Link>
                 </li>

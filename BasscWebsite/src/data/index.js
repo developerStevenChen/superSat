@@ -150,7 +150,7 @@ export const newsList = [
 
 // Nav (placeholder links; labels in English)
 export const navItems = [
-  { id: 'class', label: 'Program', path: '/class' },
+  { id: 'class', label: 'Program', path: '/program' },
   { id: 'class_schedule', label: 'Activity Schedule', path: '/class-schedule' },
   { id: 'event', label: 'Events', path: '/event' },
   { id: 'athlete', label: 'Shares', path: '/athlete' },
