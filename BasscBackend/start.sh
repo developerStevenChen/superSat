@@ -11,6 +11,9 @@ fi
 echo "[start.sh] migrate..."
 python manage.py migrate --noinput
 
+echo "[start.sh] check bucket config..."
+python manage.py check_bucket
+
 if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ]; then
   echo "[start.sh] ensure_superuser for user=${DJANGO_SUPERUSER_USERNAME}..."
   python manage.py ensure_superuser

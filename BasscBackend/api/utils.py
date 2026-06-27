@@ -7,6 +7,8 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 
+from .bucket_config import get_bucket_config, get_s3_client
+
 
 def get_image_or_default(url):
     """若 url 为空则返回默认占位图，否则返回原 URL。用于未配置 Bucket 时的回退。"""
@@ -16,42 +18,8 @@ def get_image_or_default(url):
 
 def _get_s3_client():
     """获取 S3 兼容客户端（Railway Bucket）。未配置时返回 None。"""
-    access_key = (
-        getattr(settings, 'RAILWAY_BUCKET_ACCESS_KEY', None)
-        or os.environ.get('RAILWAY_BUCKET_ACCESS_KEY')
-        or os.environ.get('AWS_ACCESS_KEY_ID')
-        or os.environ.get('ACCESS_KEY_ID')
-    )
-    secret_key = (
-        getattr(settings, 'RAILWAY_BUCKET_SECRET_KEY', None)
-        or os.environ.get('RAILWAY_BUCKET_SECRET_KEY')
-        or os.environ.get('AWS_SECRET_ACCESS_KEY')
-        or os.environ.get('SECRET_ACCESS_KEY')
-    )
-    if not access_key or not secret_key:
-        return None
-    endpoint = (
-        getattr(settings, 'RAILWAY_BUCKET_ENDPOINT', None)
-        or os.environ.get('RAILWAY_BUCKET_ENDPOINT')
-        or os.environ.get('AWS_S3_ENDPOINT_URL', 'https://storage.railway.app')
-    )
-    region = (
-        getattr(settings, 'AWS_S3_REGION_NAME', None)
-        or os.environ.get('AWS_S3_REGION_NAME', 'us-west-1')
-    )
-    try:
-        import boto3
-        from botocore.config import Config
-    except ImportError:
-        return None
-    return boto3.client(
-        's3',
-        endpoint_url=endpoint,
-        region_name=region,
-        aws_access_key_id=access_key,
-        aws_secret_access_key=secret_key,
-        config=Config(signature_version='s3v4'),
-    )
+    client, _error = get_s3_client()
+    return client
 
 
 def _object_key_from_url(url):
@@ -69,12 +37,7 @@ def _object_key_from_url(url):
     if not path:
         return ''
     # 去掉路径开头的 bucket 名（Railway 等常为 /bucketname/uploads/...）
-    bucket = (
-        getattr(settings, 'RAILWAY_BUCKET_NAME', None)
-        or os.environ.get('RAILWAY_BUCKET_NAME')
-        or os.environ.get('AWS_STORAGE_BUCKET_NAME')
-        or os.environ.get('BUCKET')
-    )
+    bucket = get_bucket_config()['bucket']
     if bucket and path.startswith(bucket + '/'):
         path = path[len(bucket) + 1:]
     return path
@@ -95,12 +58,7 @@ def get_presigned_image_url(object_key, expires_in=3600 * 24 * 7):
     client = _get_s3_client()
     if not client:
         return ''
-    bucket = (
-        getattr(settings, 'RAILWAY_BUCKET_NAME', None)
-        or os.environ.get('RAILWAY_BUCKET_NAME')
-        or os.environ.get('AWS_STORAGE_BUCKET_NAME')
-        or os.environ.get('BUCKET')
-    )
+    bucket = get_bucket_config()['bucket']
     if not bucket:
         return ''
     try:

@@ -11,7 +11,7 @@ class ApiConfig(AppConfig):
         # Skip during most management commands; gunicorn workers still run bootstrap.
         argv = sys.argv
         if len(argv) > 1 and argv[0].endswith('manage.py'):
-            if argv[1] in ('migrate', 'makemigrations', 'test', 'shell', 'ensure_superuser'):
+            if argv[1] in ('migrate', 'makemigrations', 'test', 'shell', 'ensure_superuser', 'check_bucket'):
                 return
         try:
             from api.bootstrap import ensure_superuser_from_env

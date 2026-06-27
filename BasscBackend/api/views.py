@@ -28,6 +28,7 @@ from .serializers import (
     ContactInfoSerializer,
 )
 from .storage_backend import upload_file_to_bucket
+from .bucket_config import bucket_config_hint
 from .utils import get_image_url_for_api
 
 
@@ -396,7 +397,10 @@ def upload_image(request):
         return Response({'error': '请上传 image 或 file 字段'}, status=status.HTTP_400_BAD_REQUEST)
     content_type = getattr(file_obj, 'content_type', '') or ''
     folder = 'videos' if content_type.startswith('video/') else 'uploads'
-    url = upload_file_to_bucket(file_obj, folder=folder)
+    url, upload_error = upload_file_to_bucket(file_obj, folder=folder)
     if not url:
-        return Response({'error': '上传失败或未配置 Bucket'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(
+            {'error': upload_error or f'上传失败。{bucket_config_hint()}'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
     return Response({'url': url})

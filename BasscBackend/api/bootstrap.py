@@ -57,3 +57,19 @@ def ensure_superuser_from_env():
         print(msg, flush=True)
     except Exception as exc:
         logger.error('ensure_superuser: failed for %r: %s', username, exc)
+
+
+def log_bucket_config_status():
+    """Print bucket env status on deploy so Railway logs show missing vars."""
+    import os
+
+    from .bucket_config import bucket_config_hint, bucket_configured, get_bucket_config
+
+    cfg = get_bucket_config()
+    if bucket_configured():
+        bucket_source = 'BUCKET' if os.environ.get('BUCKET', '').strip() else 'RAILWAY_BUCKET_NAME/other'
+        msg = f'bucket: configured (name={cfg["bucket"]!r}, source={bucket_source})'
+    else:
+        msg = f'bucket: not configured — {bucket_config_hint()}'
+    logger.info(msg)
+    print(msg, flush=True)

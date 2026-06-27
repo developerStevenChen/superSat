@@ -4,34 +4,31 @@ Railway Bucket（S3 兼容）上传，返回可访问的图片 URL。
 import logging
 import os
 import uuid
-from django.conf import settings
+
+from .bucket_config import bucket_config_hint, bucket_configured, get_bucket_config, get_s3_client
 
 logger = logging.getLogger(__name__)
 
 
 def upload_file_to_bucket(file_obj, folder='uploads'):
     """
-    上传文件到 Railway Bucket，返回公网 URL。
-    file_obj: Django UploadedFile
-    folder: 存储目录前缀
-    返回: str URL 或 None（未配置或失败）
+    上传文件到 Railway Bucket。
+    返回 (url, error)：成功时 error 为 None；失败时 url 为 None。
     """
-    access_key = getattr(settings, 'RAILWAY_BUCKET_ACCESS_KEY', None) or os.environ.get('RAILWAY_BUCKET_ACCESS_KEY')
-    secret_key = getattr(settings, 'RAILWAY_BUCKET_SECRET_KEY', None) or os.environ.get('RAILWAY_BUCKET_SECRET_KEY')
-    endpoint = getattr(settings, 'RAILWAY_BUCKET_ENDPOINT', None) or os.environ.get('RAILWAY_BUCKET_ENDPOINT', 'https://t3.storageapi.dev')
-    bucket = getattr(settings, 'RAILWAY_BUCKET_NAME', None) or os.environ.get('RAILWAY_BUCKET_NAME')
-    public_base = getattr(settings, 'RAILWAY_BUCKET_PUBLIC_BASE', None) or os.environ.get('RAILWAY_BUCKET_PUBLIC_BASE')
+    cfg = get_bucket_config()
+    bucket = cfg['bucket']
+    endpoint = cfg['endpoint']
+    public_base = cfg['public_base']
 
-    if not all([access_key, secret_key, bucket]):
-        logger.warning("Bucket 未配置: 请检查 RAILWAY_BUCKET_ACCESS_KEY / SECRET_KEY / NAME 是否在 .env 或环境中")
-        return None
+    if not bucket_configured():
+        msg = bucket_config_hint()
+        logger.warning("Bucket 未配置: %s", msg)
+        return None, msg
 
-    try:
-        import boto3
-        from botocore.config import Config
-    except ImportError:
-        logger.warning("boto3 未安装，无法上传到 Bucket")
-        return None
+    client, client_error = get_s3_client()
+    if client_error:
+        logger.warning("Bucket S3 客户端失败: %s", client_error)
+        return None, client_error
 
     ext = os.path.splitext(getattr(file_obj, 'name', '') or '')[1]
     if not ext:
@@ -40,22 +37,19 @@ def upload_file_to_bucket(file_obj, folder='uploads'):
     key = f"{folder}/{uuid.uuid4().hex}{ext}"
 
     try:
-        client = boto3.client(
-            's3',
-            endpoint_url=endpoint,
-            aws_access_key_id=access_key,
-            aws_secret_access_key=secret_key,
-            config=Config(signature_version='s3v4'),
-            region_name='auto',
-        )
         file_obj.seek(0)
         content_type = file_obj.content_type or ('video/mp4' if folder == 'videos' else 'image/jpeg')
-        client.upload_fileobj(file_obj, bucket, key, ExtraArgs={'ContentType': content_type})
-    except Exception as e:
-        logger.exception("上传到 Bucket 失败: %s", e)
-        return None
+        client.upload_fileobj(
+            file_obj,
+            bucket,
+            key,
+            ExtraArgs={'ContentType': content_type},
+        )
+    except Exception as exc:
+        logger.exception("上传到 Bucket 失败 bucket=%r key=%r: %s", bucket, key, exc)
+        return None, f'上传到 Bucket 失败（bucket={bucket}）：{exc}'
 
     if public_base:
         base = public_base.rstrip('/')
-        return f"{base}/{key}"
-    return f"{endpoint.rstrip('/')}/{bucket}/{key}"
+        return f"{base}/{key}", None
+    return f"{endpoint.rstrip('/')}/{bucket}/{key}", None

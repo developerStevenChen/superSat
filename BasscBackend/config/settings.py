@@ -188,11 +188,22 @@ if os.environ.get('PORT'):
     CORS_ALLOWED_ORIGIN_REGEXES = [r'^https://[a-z0-9-]+\.up\.railway\.app$']
 CORS_ALLOW_CREDENTIALS = True
 
-# Railway Bucket（S3 兼容）- 图片上传
-RAILWAY_BUCKET_ACCESS_KEY = os.environ.get('RAILWAY_BUCKET_ACCESS_KEY', '')
-RAILWAY_BUCKET_SECRET_KEY = os.environ.get('RAILWAY_BUCKET_SECRET_KEY', '')
-RAILWAY_BUCKET_ENDPOINT = os.environ.get('RAILWAY_BUCKET_ENDPOINT', 'https://t3.storageapi.dev')
-RAILWAY_BUCKET_NAME = os.environ.get('RAILWAY_BUCKET_NAME', '')
+def _bucket_env(*keys, default=''):
+    for key in keys:
+        value = (os.environ.get(key) or '').strip()
+        if value:
+            return value
+    return default
+
+
+# Railway Bucket（S3 兼容）- 图片上传；也认 Railway Reference 名 ACCESS_KEY_ID 等
+RAILWAY_BUCKET_ACCESS_KEY = _bucket_env('RAILWAY_BUCKET_ACCESS_KEY', 'ACCESS_KEY_ID', 'AWS_ACCESS_KEY_ID')
+RAILWAY_BUCKET_SECRET_KEY = _bucket_env('RAILWAY_BUCKET_SECRET_KEY', 'SECRET_ACCESS_KEY', 'AWS_SECRET_ACCESS_KEY')
+RAILWAY_BUCKET_ENDPOINT = _bucket_env(
+    'RAILWAY_BUCKET_ENDPOINT', 'ENDPOINT', 'AWS_S3_ENDPOINT_URL',
+    default='https://t3.storageapi.dev',
+)
+RAILWAY_BUCKET_NAME = _bucket_env('BUCKET', 'AWS_STORAGE_BUCKET_NAME', 'S3_BUCKET', 'RAILWAY_BUCKET_NAME')
 # 公网访问基础 URL（若存储为私有，可改为后端代理或预签名）
 RAILWAY_BUCKET_PUBLIC_BASE = os.environ.get(
     'RAILWAY_BUCKET_PUBLIC_BASE',
